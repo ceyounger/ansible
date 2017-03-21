@@ -1,0 +1,4 @@
+- name: Configure Webmin Hosts
+  hosts: webmin
+  roles: 
+   - webmin
