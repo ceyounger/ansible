@@ -1,12 +1,11 @@
 ---
 - name: Apt Install NRPE and Start Service
   apt: pkg=nagios-nrpe-server state=installed update_cache=true
-  notify:
-   - Start NRPE
+  notify: Start NRPE
 
 - name: Apt Install Nagios-Plugins
-  apt: pkg=nagios-plugins state=installed 
-  
+  apt: pkg=nagios-plugins state=installed
+
 - name: Install lm-sensors
   apt: pkg=lm-sensors state=installed
 
@@ -18,8 +17,7 @@
 
 - name: Copy custom NRPE commands to nrpe.d
   copy: src=/etc/ansible/roles/nrpe/files/my.cfg dest=/etc/nagios/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
-  notify:
-   - Restart NRPE
+  notify: Restart NRPE
 
 - name: Copy check_docker to Nagios Plugin directory
   copy: src=/etc/ansible/roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755

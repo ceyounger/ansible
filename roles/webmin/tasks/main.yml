@@ -8,5 +8,4 @@
 
 - name: Install Webmin
   apt: pkg=webmin state=latest update_cache=true
-  notify: 
-     - Start Webmin
+  notify: Start Webmin
