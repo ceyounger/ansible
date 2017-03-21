@@ -1,0 +1,8 @@
+---
+- name: Base Config - Ubuntu
+  hosts: all
+  roles:
+    - sudoers
+    - nrpe
+    - webmin
+    

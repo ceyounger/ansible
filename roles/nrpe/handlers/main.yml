@@ -1,0 +1,6 @@
+---
+- name: Start NRPE
+  service: name=nagios-nrpe-server enabled=yes state=started
+
+- name: Restart NRPE
+  service: name=nagios-nrpe-server state=restarted

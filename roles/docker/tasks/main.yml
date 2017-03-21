@@ -1,0 +1,26 @@
+---
+- name: Cleanup old docker versions
+  apt: 
+    pkg=docker state=absent
+    pkg=docker-engine state=absent
+  
+- name: Ensure APT is setup for HTTPS repos
+  apt: 
+    pkg=apt-transport-https state=installed update_cache=true
+    pkg=ca-certificates state=installed
+    pkg=curl state=installed
+    pkg=software-properties-common state=installed
+
+- name: Copy Docker GPG Key
+  apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+  
+- name: Setup Docker Repository
+  copy: src=/etc/ansible/roles/docker/files/docker.list dest=/etc/apt/sources.list.d/ owner=root group=root mode=0644 backup=yes
+  become: yes
+  
+- name: Install Docker CE
+  apt: pkg=docker-ce state=installed update_cache=yes
+  
+- name: Set Docker to start on boot
+  service: name=docker enabled=yes
+  notify: "Start Docker Services"

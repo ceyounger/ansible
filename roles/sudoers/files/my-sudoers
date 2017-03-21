@@ -1,0 +1,2 @@
+ceyounger       ALL=(ALL:ALL) ALL
+nagios  	ALL=NOPASSWD: /usr/lib/nagios/plugins/, /usr/local/nagios/libexec/
