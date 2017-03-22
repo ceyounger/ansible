@@ -1,0 +1,4 @@
+- name: Configure NRPE Hosts
+  hosts: nrpe
+  roles:
+    - nrpe
