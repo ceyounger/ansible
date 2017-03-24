@@ -3,7 +3,7 @@
   apt_key: url=http://www.webmin.com/jcameron-key.asc state=present
 
 - name: Add Webmin Apt Source
-  copy: src=/etc/ansible/roles/webmin/files/webmin.list dest=/etc/apt/sources.list.d owner=root group=root mode=0644 backup=yes
+  copy: src=/etc/ansible/playbooks/webmin/roles/webmin/files/webmin.list dest=/etc/apt/sources.list.d owner=root group=root mode=0644 backup=yes
   become: yes
 
 - name: Install Webmin

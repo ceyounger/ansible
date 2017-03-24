@@ -16,11 +16,11 @@
   lineinfile: dest=/etc/nagios/nrpe.cfg state=present line='include_dir=/etc/nagios/nrpe.d/'
 
 - name: Copy custom NRPE commands to nrpe.d
-  copy: src=/etc/ansible/roles/nrpe/files/my.cfg dest=/etc/nagios/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
+  copy: src=/etc/ansible/playbooks/nrpe/roles/nrpe/files/my.cfg dest=/etc/nagios/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
   notify: Restart NRPE
 
 - name: Copy check_docker to Nagios Plugin directory
-  copy: src=/etc/ansible/roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
+  copy: src=/etc/ansible/playbooks/nrpe/roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Apt Install Python-PIP
   apt: pkg=python-pip state=installed
