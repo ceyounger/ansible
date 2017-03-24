@@ -10,7 +10,7 @@
   apt: pkg=lm-sensors state=installed
 
 - name: Add Nagios Server to allowed_hosts in nrpe.cfg
-  lineinfile: dest=/etc/nagios/nrpe.cfg state=present regexp='^allowed_hosts=127\.0\.0\.1' line='allowed_hosts=127.0.0.1,192.168.250.1'
+  lineinfile: dest=/etc/nagios/nrpe.cfg state=present regexp='^allowed_hosts=127\.0\.0\.1' line='allowed_hosts=127.0.0.1,192.168.250.1,104.131.149.146'
 
 - name: Add nrpe.d include dir to nrpe.cfg
   lineinfile: dest=/etc/nagios/nrpe.cfg state=present line='include_dir=/etc/nagios/nrpe.d/'
