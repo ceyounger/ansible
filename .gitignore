@@ -1,4 +1,5 @@
 .vagrant/
+.ansible_cache
 *.retry
 ._*
 *.log
