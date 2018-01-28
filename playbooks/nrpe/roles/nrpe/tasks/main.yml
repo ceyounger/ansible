@@ -23,7 +23,6 @@
   copy: src=/etc/ansible/playbooks/nrpe/roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Install Python-PIP
-  apt: pkg=python-pip state=installed
   action: >
     {{ ansible_pkg_mgr }} name=python-pip state=installed update_cache=yes
 
