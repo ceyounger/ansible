@@ -46,7 +46,7 @@
 
 - name: Copy firewalld service entry for CentOS
   copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/nrpe dest=/etc/firewalld/services/ owner=root group=root mode=0644
-  when: ansible_disribution == "CentOS"
+  when: ansible_dist ribution == "CentOS"
 
 - name: Modify firewalld for CentOS
   firewalld:
