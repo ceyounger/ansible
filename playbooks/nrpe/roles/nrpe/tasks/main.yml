@@ -6,20 +6,20 @@
   when: ansible_distribution == "CentOS"
 
 - name: Install NRPE and nagios-plugins and start service for CentOS
-  yum: 
-    name: {{ item }} 
-    with_items: [ nrpe, nagios-plugins, lm-sensors ]
-    state: installed
-  notify: Start NRPE
+  yum: name={{ item }} state=present
+  with_items: 
+    - nrpe
+    - nagios-plugins
+  notify: Start NRPE on CentOS
   when: ansible_distribution == "CentOS"
 
 - name: Install NRPE and nagios-plugins and start service for Ubuntu
-  apt:
-    name: {{ item }}
-    with_items: [ nagios-nrpe-server, nagios-plugins ]
-    state: installed
-    update_cache: yes
-  notify: Start NRPE
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - nagios-nrpe-server
+    - nagios-plugins
+    - lm-sensors
+  notify: Start NRPE on Ubuntu
   when: ansible_distribution == "Ubuntu"
 
 - name: Add Nagios Server to allowed_hosts in nrpe.cfg
@@ -30,7 +30,13 @@
 
 - name: Copy custom NRPE commands to nrpe.d
   copy: src=/etc/ansible/playbooks/nrpe/roles/nrpe/files/my.cfg dest=/etc/nagios/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
-  notify: Restart NRPE
+  notify: Restart NRPE on CentOS
+  when: ansible_distribution == "CentOS"
+
+- name: Copy custom NRPE commands to nrpe.d
+  copy: src=/etc/ansible/playbooks/nrpe/roles/nrpe/files/my.cfg dest=/etc/nagios/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
+  notify: Restart NRPE on Ubuntu
+  when: ansible_distribution == "Ubuntu"
 
 - name: Copy check_docker to Nagios Plugin directory
   copy: src=/etc/ansible/playbooks/nrpe/roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755

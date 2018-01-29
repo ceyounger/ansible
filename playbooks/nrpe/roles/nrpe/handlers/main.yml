@@ -1,6 +1,12 @@
 ---
-- name: Start NRPE
+- name: Start NRPE on CentOS
+  service: name=nrpe enabled=yes state=started
+
+- name: Restart NRPE on CentOS
+  service: name=nrpe state=restarted
+
+- name: Start NRPE on Ubuntu
   service: name=nagios-nrpe-server enabled=yes state=started
 
-- name: Restart NRPE
+- name: Restart NRPE on Ubuntu
   service: name=nagios-nrpe-server state=restarted
