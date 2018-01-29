@@ -49,11 +49,7 @@
   when: ansible_distribution == "CentOS"
 
 - name: Modify firewalld for CentOS
-  firewalld:
-    service: nrpe
-    zone: public
-    permanent: true
-    state: enabled
+  firewalld: service=nrpe zone=public permanent=true state=enabled
   when: ansible_distribution == "CentOS"
 
 - name: Install Python-PIP
