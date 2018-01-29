@@ -1,25 +1,54 @@
 ---
 - name: Cleanup old docker versions
-  apt:
-    pkg=docker state=absent
-    pkg=docker-engine state=absent
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state=absent
+  with_items:
+    - docker
+    - docker.io
+    - docker-common
+    - docker-selinux
+    - docker-engine
 
-- name: Ensure APT is setup for HTTPS repos
-  apt:
-    pkg=apt-transport-https state=installed update_cache=true
-    pkg=ca-certificates state=installed
-    pkg=curl state=installed
-    pkg=software-properties-common state=installed
+- name: Ensure APT is setup for HTTPS repos for Ubuntu
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+  when: ansible_distribution == "Ubuntu"
 
-- name: Copy Docker GPG Key
-  apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+- name: Install required packages for CentOS
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+  when: ansible_distribution == "CentOS"
 
-- name: Setup Docker Repository
-  copy: src=/etc/ansible/playbooks/docker/roles/docker/files/docker.list dest=/etc/apt/sources.list.d/ owner=root group=root mode=0644 backup=yes
-  become: yes
+- name: Copy Docker GPG Key for Ubuntu systems
+  apt_key: 
+    url: https://download.docker.com/linux/ubuntu/gpg
+  when: ansible_distribution == "Ubuntu"
+
+- name: Add Docker Repo for Ubuntu systems
+  apt_repository: 
+    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Add Docker Repo for CentOS systems
+  yum_repository:
+    name: Docker CE
+    description: Docker CE Repo
+    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+  when: ansible_distribution == "CentOS"
 
 - name: Install Docker CE
-  apt: pkg=docker-ce state=installed update_cache=yes
+  action: >
+    {{ ansible_pkg_mgr }} name=docker-ce state=installed update_cache=true
 
 - name: Set Docker to start on boot
   service: name=docker enabled=yes

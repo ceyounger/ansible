@@ -1,1 +1,1 @@
-ansible-playbook -s docker.yml
+ansible-playbook -u root docker.yml
