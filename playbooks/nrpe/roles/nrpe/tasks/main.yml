@@ -48,8 +48,14 @@
 - name: Copy check_docker to Nagios Plugin directory for Ubuntu
   copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
 
+- name: Copy check_docker_socket to Nagios Plugin directory for Ubuntu
+  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_docker_socket dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
+
 - name: Copy check_docker to Nagios Plugin directory for CentOS
   copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_docker dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
+
+- name: Copy check_docker_socket to Nagios Plugin directory for CentOS
+  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_docker_socket dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Copy check_yum to Nagios Plugin directory for Ubuntu
   copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_yum dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
