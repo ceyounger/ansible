@@ -1,1 +1,1 @@
-ansible-playbook -b nrpe.yml
+ansible-playbook -u root nrpe.yml

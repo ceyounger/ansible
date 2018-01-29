@@ -1,13 +1,26 @@
 ---
-- name: Install NRPE and Start Service
-  action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=installed update_cache=yes
-  with_items:
-    - nagios-nrpe-server
-    - nagios-plugins
-    - lm-sensors
+- name: Install required software repo for CentOS
+  yum: 
+    name: epel-release
+    state: present
+  when: ansible_distribution == "CentOS"
 
+- name: Install NRPE and nagios-plugins and start service for CentOS
+  yum: 
+    name: {{ item }} 
+    with_items: [ nrpe, nagios-plugins, lm-sensors ]
+    state: installed
   notify: Start NRPE
+  when: ansible_distribution == "CentOS"
+
+- name: Install NRPE and nagios-plugins and start service for Ubuntu
+  apt:
+    name: {{ item }}
+    with_items: [ nagios-nrpe-server, nagios-plugins ]
+    state: installed
+    update_cache: yes
+  notify: Start NRPE
+  when: ansible_distribution == "Ubuntu"
 
 - name: Add Nagios Server to allowed_hosts in nrpe.cfg
   lineinfile: dest=/etc/nagios/nrpe.cfg state=present regexp='^allowed_hosts=127\.0\.0\.1' line='allowed_hosts=127.0.0.1,192.168.250.1,192.168.250.2,104.131.149.146,138.68.47.5'
@@ -21,6 +34,9 @@
 
 - name: Copy check_docker to Nagios Plugin directory
   copy: src=/etc/ansible/playbooks/nrpe/roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
+
+- name: Copy check_yum to Nagios Plugin directory
+  copy: src=/etc/ansible/playbooks/nrpe/roles/nrpe/files/check_yum dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Install Python-PIP
   action: >
