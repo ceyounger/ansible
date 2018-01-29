@@ -1,1 +1,1 @@
-ansible-playbook -b -C -u root sudoers.yml
+ansible-playbook -C -u root sudoers.yml
