@@ -1,4 +1,4 @@
-- name: Install Cockpit on CentOS
+- name: Install Cockpit
   action: >
     {{ ansible_pkg_mgr }} name=cockpit state=installed update_cache=true
 
