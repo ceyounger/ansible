@@ -9,6 +9,3 @@
     validate: 'visudo -cf %s'
     backup: yes
   become: yes
-
-- name: Ensure SUDO config checks /etc/sudoers.d
-  lineinfile: dest=/etc/sudoers state=present regexp='^#includedir /etc/sudoers.d' line='includedir /etc/sudoers.d'
