@@ -71,6 +71,14 @@
   firewalld: service=nrpe zone=public permanent=true immediate=yes state=enabled
   when: ansible_distribution == "CentOS"
 
+- name: Modify UFW
+  ufw: rule=allow port=5666 proto=tcp src={{ item }}
+  with_items:
+    - 192.168.52.0/24
+    - 192.168.250.0/24
+    - 172.16.0.0/12
+  when: ansible_distribution =="Ubuntu"
+
 - name: Install Python-PIP
   action: >
     {{ ansible_pkg_mgr }} name=python-pip state=present
