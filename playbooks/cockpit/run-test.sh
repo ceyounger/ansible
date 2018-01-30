@@ -1,1 +1,1 @@
-ansible-playbook -C -u root cockpit.yml
+ansible-playbook -C -D -u root cockpit.yml

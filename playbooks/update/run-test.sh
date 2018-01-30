@@ -1,1 +1,1 @@
-ansible-playbook -C -u root update.yml
+ansible-playbook -C -D -u root update.yml
