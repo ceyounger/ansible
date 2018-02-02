@@ -83,7 +83,7 @@
   when: ansible_distribution == "CentOS"
 
 - name: Check state of UFW and register
-  command: ufw status | grep Status:
+  command: ufw status | grep Status: | sed 's/Status: //g'
   register: ufw_state
   when: ansible_distribution == "Ubuntu"
 
@@ -101,7 +101,7 @@
     - 172.16.0.0/12
   when: 
     - ansible_distribution =="Ubuntu"
-    - ufw_state == "Status: active"
+    - ufw_state == "active"
 
 - name: Install Python-PIP
   action: >
