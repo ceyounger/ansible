@@ -67,17 +67,31 @@
   copy: src=roles/nrpe/files/nrpe.xml dest=/etc/firewalld/services/ owner=root group=root mode=0644
   when: ansible_distribution == "CentOS"
 
-#- name: Modify firewalld for CentOS
-#  firewalld: service=nrpe zone=public permanent=true immediate=yes state=enabled
-#  when: ansible_distribution == "CentOS"
+- name: Check state of firewalld and register
+  command: /usr/bin/firewall-cmd --state
+  register: firewalld_state
+  when: ansible_distribution == "CentOS"
 
-#- name: Modify UFW
-#  ufw: rule=allow port=5666 proto=tcp src={{ item }}
-#  with_items:
-#    - 192.168.52.0/24
-#    - 192.168.250.0/24
-#    - 172.16.0.0/12
-#  when: ansible_distribution =="Ubuntu"
+- name: Check state of UFW and register
+  command: ufw status | grep Status:
+  register: ufw_state
+  when: ansible_distribution == "Ubuntu"
+
+- name: Modify firewalld for CentOS
+  firewalld: service=nrpe zone=public permanent=true immediate=yes state=enabled
+  when: 
+    - ansible_distribution == "CentOS"
+    - firewalld_state == "running"
+
+- name: Modify UFW
+  ufw: rule=allow port=5666 proto=tcp src={{ item }}
+  with_items:
+    - 192.168.52.0/24
+    - 192.168.250.0/24
+    - 172.16.0.0/12
+  when: 
+    - ansible_distribution =="Ubuntu"
+    - ufw_state == "Status: active"
 
 - name: Install Python-PIP
   action: >

@@ -1,0 +1,4 @@
+- name: Install Linux Kernel version 4
+  hosts: centos-kernel4
+  roles:
+    - centos-kernel4

@@ -1,0 +1,32 @@
+---
+
+- name: Add ELRepo Public Key
+  rpm_key: 
+    state: present
+    key: https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+
+- name: Add ELRepo via RPM
+  yum: 
+    name: http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm 
+    state: present
+
+- name: Ensure YUM has fastestmirror
+  yum: name=yum-plugin-fastestmirror state=present
+
+- name: Ensure CentOS is updated to current
+  yum: 
+    name: '*'
+    state: latest
+    exclude: kernel*
+
+- name: Install new Kernel version
+  yum: 
+    name: kernel-ml 
+    enablerepo: elrepo-kernel
+    state: present
+
+- name: Update GRUB2 Default
+  command: /usr/sbin/grub2-set-default 0
+
+#- name: Generate new GRUB2 config
+#  command: /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
