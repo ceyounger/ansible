@@ -25,16 +25,20 @@
 
 - name: Add Nagios Server to allowed_hosts in nrpe.cfg for CentOS
   lineinfile: dest=/etc/nagios/nrpe.cfg state=present regexp='^allowed_hosts=127\.0\.0\.1' line='allowed_hosts=127.0.0.1,172.16.0.0/12,192.168.250.1,192.168.250.2,104.131.149.146,138.68.47.5'
+  when: ansible_distribution == "CentOS"
 
 - name: Add Nagios Server to allowed_hosts in nrpe.cfg for Ubuntu
   lineinfile: dest=/etc/nagios/nrpe.cfg state=present regexp='^allowed_hosts=127\.0\.0\.1' line='allowed_hosts=127.0.0.1,172.16.0.0/12,192.168.250.1,192.168.250.2,104.131.149.146,138.68.47.5'
+  when: ansible_distribution == "Ubuntu"
 
 - name: Add nrpe.d include dir to nrpe.cfg for CentOS
   lineinfile: dest=/etc/nagios/nrpe.cfg state=present line='include_dir=/etc/nagios/nrpe.d/'
+  when: ansible_distribution == "CentOS"
 
 - name: Add nrpe.d include dir to nrpe.cfg for Ubuntu
   lineinfile: dest=/etc/nagios/nrpe.cfg state=present line='include_dir=/etc/nagios/nrpe.d/'
-
+  when: ansible_distribution == "Ubuntu"
+  
 - name: Copy custom NRPE commands to nrpe.d for CentOS
   copy: src=roles/nrpe/files/my-centos.cfg dest=/etc/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
   notify: Restart NRPE on CentOS
@@ -47,21 +51,27 @@
 
 - name: Copy check_docker to Nagios Plugin directory for Ubuntu
   copy: src=roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
+  when: ansible_distribution == "Ubuntu"
 
 - name: Copy check_docker_socket to Nagios Plugin directory for Ubuntu
   copy: src=roles/nrpe/files/check_docker_socket dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
+  when: ansible_distribution == "Ubuntu"
 
 - name: Copy check_docker to Nagios Plugin directory for CentOS
   copy: src=roles/nrpe/files/check_docker dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
+  when: ansible_distribution == "CentOS"
 
 - name: Copy check_docker_socket to Nagios Plugin directory for CentOS
   copy: src=roles/nrpe/files/check_docker_socket dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
+  when: ansible_distribution == "CentOS"
 
 - name: Copy check_yum to Nagios Plugin directory for Ubuntu
   copy: src=roles/nrpe/files/check_yum dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
-
+  when: ansible_distribution == "Ubuntu"
+  
 - name: Copy check_yum to Nagios Plugin directory for CentOS
   copy: src=roles/nrpe/files/check_yum dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
+  when: ansible_distribution == "CentOS"
 
 - name: Copy firewalld service entry for CentOS
   copy: src=roles/nrpe/files/nrpe.xml dest=/etc/firewalld/services/ owner=root group=root mode=0644
