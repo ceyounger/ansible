@@ -1,4 +1,4 @@
 - name: Configure SUDOers on Hosts
-  hosts: all
+  hosts: sudoers
   roles:
    - sudoers
