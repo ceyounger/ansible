@@ -6,14 +6,17 @@
   systemd: name=cockpit.socket enabled=true
   when: ansible_distribution == "CentOS"
 
-- name: Modify firewalld
-  firewalld: service=cockpit zone=public permanent=true immediate=yes state=enabled
-  when: ansible_distribution == "CentOS"
+#- name: Modify firewalld
+#  firewalld: service=cockpit zone=public permanent=true immediate=yes state=enabled offline=true
+#  when: ansible_distribution == "CentOS"
   
-- name: Modify UFW
-  ufw: rule=allow port=9090 proto=tcp src={{ item }}
-  with_items:
-    - 192.168.52.0/24
-    - 192.168.250.0/24
-    - 172.16.0.0/12
-  when: ansible_distribution == "Ubuntu"
+#- name: Modify UFW
+#  ufw: rule=allow port=9090 proto=tcp src={{ item }}
+#  with_items:
+#    - 192.168.52.0/24
+#    - 192.168.250.0/24
+#    - 172.16.0.0/12
+#  when: ansible_distribution == "Ubuntu
+
+- name: Start Cockpit
+  systemd: name=cockpit state=started
