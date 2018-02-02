@@ -1,1 +1,1 @@
-ansible-playbook -s webmin.yml
+ansible-playbook -u root $1 webmin.yml
