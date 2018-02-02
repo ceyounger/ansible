@@ -8,13 +8,9 @@
 
 - name: Check state of firewalld and register
   command: /usr/bin/firewall-cmd --state
+  ignore_errors: yes
   register: firewalld_state
   when: ansible_distribution == "CentOS"
-
-- name: Check state of UFW and register
-  command: ufw status | grep Status:
-  register: ufw_state
-  when: ansible_distribution == "Ubuntu"
 
 - name: Modify firewalld
   firewalld: service=cockpit zone=public permanent=true immediate=yes state=enabled offline=true
@@ -23,7 +19,7 @@
     - firewalld_state == "running"
 
 - name: Check state of UFW and register
-  command: ufw status | grep Status\: | sed 's/Status: //g'
+  command: "ufw status | grep Status: | sed 's/Status: //g'"
   register: ufw_state
   when: ansible_distribution == "Ubuntu"
 
