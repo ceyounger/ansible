@@ -36,48 +36,48 @@
   lineinfile: dest=/etc/nagios/nrpe.cfg state=present line='include_dir=/etc/nagios/nrpe.d/'
 
 - name: Copy custom NRPE commands to nrpe.d for CentOS
-  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/my-centos.cfg dest=/etc/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
+  copy: src=roles/nrpe/files/my-centos.cfg dest=/etc/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
   notify: Restart NRPE on CentOS
   when: ansible_distribution == "CentOS"
 
 - name: Copy custom NRPE commands to nrpe.d for Ubuntu
-  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/my-ubuntu.cfg dest=/etc/nagios/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
+  copy: src=roles/nrpe/files/my-ubuntu.cfg dest=/etc/nagios/nrpe.d/ owner=nagios group=nagios mode=0644 backup=yes
   notify: Restart NRPE on Ubuntu
   when: ansible_distribution == "Ubuntu"
 
 - name: Copy check_docker to Nagios Plugin directory for Ubuntu
-  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
+  copy: src=roles/nrpe/files/check_docker dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Copy check_docker_socket to Nagios Plugin directory for Ubuntu
-  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_docker_socket dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
+  copy: src=roles/nrpe/files/check_docker_socket dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Copy check_docker to Nagios Plugin directory for CentOS
-  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_docker dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
+  copy: src=roles/nrpe/files/check_docker dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Copy check_docker_socket to Nagios Plugin directory for CentOS
-  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_docker_socket dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
+  copy: src=roles/nrpe/files/check_docker_socket dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Copy check_yum to Nagios Plugin directory for Ubuntu
-  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_yum dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
+  copy: src=roles/nrpe/files/check_yum dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Copy check_yum to Nagios Plugin directory for CentOS
-  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/check_yum dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
+  copy: src=roles/nrpe/files/check_yum dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
 
 - name: Copy firewalld service entry for CentOS
-  copy: src=/home/ceyounger/github/ansible/playbooks/nrpe/roles/nrpe/files/nrpe.xml dest=/etc/firewalld/services/ owner=root group=root mode=0644
+  copy: src=roles/nrpe/files/nrpe.xml dest=/etc/firewalld/services/ owner=root group=root mode=0644
   when: ansible_distribution == "CentOS"
 
-- name: Modify firewalld for CentOS
-  firewalld: service=nrpe zone=public permanent=true immediate=yes state=enabled
-  when: ansible_distribution == "CentOS"
+#- name: Modify firewalld for CentOS
+#  firewalld: service=nrpe zone=public permanent=true immediate=yes state=enabled
+#  when: ansible_distribution == "CentOS"
 
-- name: Modify UFW
-  ufw: rule=allow port=5666 proto=tcp src={{ item }}
-  with_items:
-    - 192.168.52.0/24
-    - 192.168.250.0/24
-    - 172.16.0.0/12
-  when: ansible_distribution =="Ubuntu"
+#- name: Modify UFW
+#  ufw: rule=allow port=5666 proto=tcp src={{ item }}
+#  with_items:
+#    - 192.168.52.0/24
+#    - 192.168.250.0/24
+#    - 172.16.0.0/12
+#  when: ansible_distribution =="Ubuntu"
 
 - name: Install Python-PIP
   action: >
