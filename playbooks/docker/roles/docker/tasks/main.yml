@@ -39,10 +39,9 @@
   when: ansible_distribution == "Ubuntu"
 
 - name: Add Docker Repo for CentOS systems
-  yum_repository:
-    name: Docker-CE
-    description: Docker CE Repo
-    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repo.d/docker-ce.repo
   when: ansible_distribution == "CentOS"
 
 - name: Install Docker CE
