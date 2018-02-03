@@ -1,0 +1,4 @@
+- name: Deploy SSH settings to hosts
+  hosts: ssh
+  roles:
+    - ssh
