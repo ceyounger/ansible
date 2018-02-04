@@ -1,0 +1,4 @@
+- name: Configure Openshift Origin
+  hosts: openshift-origin
+  roles:
+    - docker-cluster-init
