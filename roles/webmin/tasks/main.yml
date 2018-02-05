@@ -8,7 +8,7 @@
     mirrorlist: https://download.webmin.com/download/yum/mirrorlist
     gpgkey: http://www.webmin.com/jcameron-key.asc
     gpgcheck: yes
-  when: ansible_disribution == "CentOS"
+  when: ansible_distribution == "CentOS"
 
 - name: Add Webmin Key
   apt_key: url=http://www.webmin.com/jcameron-key.asc state=present
