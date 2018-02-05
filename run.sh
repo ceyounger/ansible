@@ -1,1 +1,1 @@
-ansible-playbook -i hosts -u root site.yml $1
+ansible-playbook -i hosts -u root $1.yml $2

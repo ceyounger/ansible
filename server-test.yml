@@ -1,9 +1,0 @@
----
-- name: Do Stuff to All My Servers
-  hosts: 192.168.52.50
-  roles:
-    - sudoers
-    - nrpe
-    - webmin
-    - docker
-    
