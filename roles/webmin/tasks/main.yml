@@ -10,8 +10,10 @@
     gpgcheck: yes
   when: ansible_disribution == "CentOS"
 
-- name: Add Webmin APT Repo for Ubuntu
+- name: Add Webmin Key
   apt_key: url=http://www.webmin.com/jcameron-key.asc state=present
+  
+- name: Add Webmin APT Repo for Ubuntu  
   apt_repository:
     repo: deb https://download.webmin.com/download/repository sarge contrib
     state: present
