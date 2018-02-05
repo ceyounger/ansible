@@ -1,0 +1,10 @@
+---
+
+- name: Do Stuff to All My Servers
+  hosts: all
+  roles:
+    - ssh
+    - sudoers
+    - autofs
+    - cockpit
+    - nrpe
