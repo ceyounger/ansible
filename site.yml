@@ -1,10 +1,11 @@
 ---
-
-- name: Do Stuff to All My Servers
-  hosts: all
-  roles:
-    - ssh
-    - sudoers
-    - autofs
-    - cockpit
-    - nrpe
+# file: site/yml
+- import_playbook: autofs.yml
+- import_playbook: centos-kernel4.yml
+- import_playbook: docker.yml
+- import_playbook: kubeadm.yml
+- import_playbook: nrpe.yml
+- import_playbook: ssh.yml
+- import_playbook: sudoers.yml
+- import_playbook: update.yml
+- import_playbook: webmin.yml

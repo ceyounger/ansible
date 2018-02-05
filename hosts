@@ -1,3 +1,5 @@
+# file: hosts
+
 [local]
 localhost
 
@@ -10,3 +12,24 @@ localhost
 192.168.250.2
 192.168.250.1
 138.197.211.47
+
+[digitalocean-sfo1]
+104.131.149.146
+
+[digitalocean-sfo2]
+138.68.47.5
+138.197.211.47
+
+[digitalocean:children]
+digitalocean-sfo1
+digitalocean-sfo2
+
+[centos]
+192.168.52.40
+192.168.52.41
+192.168.52.43
+192.168.52.44
+192.168.250.2
+
+[ubuntu]
+104.131.149.146

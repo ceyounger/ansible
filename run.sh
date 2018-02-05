@@ -1,1 +1,1 @@
-ansible-playbook -u root $1 autofs.yml
+ansible-playbook -i hosts -u root site.yml $1
