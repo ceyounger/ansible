@@ -10,8 +10,9 @@
     gpgcheck: yes
   when: ansible_distribution == "CentOS"
 
-- name: Add Webmin Key
+- name: Add Webmin Key for Ubuntu
   apt_key: url=http://www.webmin.com/jcameron-key.asc state=present
+  when: ansible_distribution == "Ubuntu"
   
 - name: Add Webmin APT Repo for Ubuntu  
   apt_repository:
