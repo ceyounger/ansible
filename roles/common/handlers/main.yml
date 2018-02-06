@@ -17,7 +17,7 @@
   systemd: name=nagios-nrpe-server state=restarted
 
 - name: Start Webmin
-  systemd: name=webmin state=started
+  service: name=webmin state=started
 
 - name: Restart Webmin
-  systemd: name=webmin state=restarted
+  service: name=webmin state=restarted

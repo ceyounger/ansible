@@ -1,4 +1,4 @@
-name: Install Kubeadm on systems
+- name: Install Kubeadm on systems
   hosts: kubeadm
   roles:
     - kubeadm
