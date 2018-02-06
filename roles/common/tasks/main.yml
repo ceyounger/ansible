@@ -1,10 +1,1 @@
 # roles/common/tasks/main.yml
-- name: Common tasks
-  import_tasks:
-    - ssh-keys.yml
-    - sudoers.yml
-    - autofs.yml
-    - cockpit.yml
-    - webmin.yml
-    - nrpe.yml
-    - update.yml
