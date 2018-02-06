@@ -1,0 +1,13 @@
+---
+# file: roles/common/handlers/nrpe.yml
+- name: Start NRPE on CentOS
+  systemd: name=nrpe enabled=yes state=started
+
+- name: Restart NRPE on CentOS
+  systemd: name=nrpe state=restarted
+
+- name: Start NRPE on Ubuntu
+  systemd: name=nagios-nrpe-server enabled=yes state=started
+
+- name: Restart NRPE on Ubuntu
+  systemd: name=nagios-nrpe-server state=restarted

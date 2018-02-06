@@ -1,8 +1,0 @@
----
-# file: webmin.yml
-- name: Configure Webmin Hosts
-  hosts: 
-    - centos
-    - ubuntu
-  roles: 
-    - webmin

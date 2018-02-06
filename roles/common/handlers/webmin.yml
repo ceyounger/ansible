@@ -1,0 +1,7 @@
+---
+# file: roles/common/handlers/webmin.yml
+- name: Start Webmin
+  systemd: name=webmin state=started
+
+- name: Restart Webmin
+  systemd: name=webmin state=restarted

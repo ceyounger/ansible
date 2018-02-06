@@ -1,0 +1,18 @@
+---
+# file: roles/common/tasks/update.yml
+- name: Install system updates for CentOS systems
+  yum:
+    name: '*'
+    state: latest
+  when: ansible_distribution == "CentOS"
+  tags: update
+
+- name: Install system updates for Ubuntu systems
+  apt:
+    upgrade: dist
+    update_cache: yes
+    cache_valid_time: 3600
+    autoclean: yes
+    autoremove: yes
+  when: ansible_distribution == "Ubuntu"
+  tags: update

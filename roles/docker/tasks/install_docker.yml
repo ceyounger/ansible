@@ -1,0 +1,60 @@
+---
+# file: roles/docker/tasks/install_docker.yml
+- name: Cleanup old docker versions
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state=absent
+  with_items:
+    - docker
+    - docker.io
+    - docker-common
+    - docker-selinux
+    - docker-engine
+
+- name: Ensure APT is setup for HTTPS repos for Ubuntu
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install required packages for CentOS
+  yum: name={{ item }} state=present
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+  when: ansible_distribution == "CentOS"
+
+- name: Copy Docker GPG Key for Ubuntu systems
+  apt_key: 
+    url: https://download.docker.com/linux/ubuntu/gpg
+  when: ansible_distribution == "Ubuntu"
+
+- name: Add Docker Repo for Ubuntu systems
+  apt_repository: 
+    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Add Docker Repo for CentOS systems
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+  when: ansible_distribution == "CentOS"
+
+- name: Install Docker CE
+  action: >
+    {{ ansible_pkg_mgr }} name=docker-ce state=installed update_cache=true
+
+- name: Set Docker to start on boot
+  systemd: name=docker enabled=yes
+  notify: "Start Docker Services"
+
+- name: Install Docker-Compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.18/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}
+    dest: /usr/local/bin/docker-compose
+    mode: 0777

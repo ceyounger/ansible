@@ -1,0 +1,4 @@
+- name: Configure Common Playbooks
+  hosts: all
+  roles:
+    - common

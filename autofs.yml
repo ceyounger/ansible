@@ -1,4 +1,0 @@
-- name: Configure autofs
-  hosts: autofs
-  roles:
-    - autofs

@@ -1,0 +1,5 @@
+- name: Start Cockpit
+  systemd: name=cockpit state=started
+
+- name: Restart Cockpit
+  systemd: name=cockpit state=restarted

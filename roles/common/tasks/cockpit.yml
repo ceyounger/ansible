@@ -1,0 +1,44 @@
+---
+# file: roles/common/tasks/cockpit.yml
+- name: Install Cockpit
+  action: >
+    {{ ansible_pkg_mgr }} name=cockpit state=installed update_cache=true
+  notify: 
+    - Start Cockpit
+  tags: cockpit
+
+- name: Enable Cockpit in systemd
+  systemd: name=cockpit.socket enabled=true
+  when: ansible_distribution == "CentOS"
+  tags: cockpit
+
+- name: Check state of firewalld and register
+  command: /usr/bin/firewall-cmd --state
+  ignore_errors: yes
+  register: firewalld_state
+  when: ansible_distribution == "CentOS"
+  tags: cockpit
+
+- name: Modify firewalld
+  firewalld: service=cockpit zone=public permanent=true immediate=yes state=enabled offline=true
+  when: 
+    - ansible_distribution == "CentOS"
+    - firewalld_state == "running"
+  tags: cockpit
+
+- name: Check state of UFW and register
+  command: "ufw status | grep Status: | sed 's/Status: //g'"
+  register: ufw_state
+  when: ansible_distribution == "Ubuntu"
+  tags: cockpit
+
+- name: Modify UFW
+  ufw: rule=allow port=9090 proto=tcp src={{ item }}
+  with_items:
+    - 192.168.52.0/24
+    - 192.168.250.0/24
+    - 172.16.0.0/12
+  when: 
+    - ansible_distribution == "Ubuntu"
+    - ufw_state = "active"
+  tags: cockpit
