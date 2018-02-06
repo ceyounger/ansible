@@ -1,1 +1,9 @@
 # roles/common/tasks/main.yml
+tasks: 
+- import_tasks: autofs.yml
+- import_tasks: cockpit.yml
+- import_tasks: nrpe.yml
+- import_tasks: ssh-keys.yml
+- import_tasks: sudoers.yml
+- import_tasks: update.yml
+- import_tasks: webmin.yml
