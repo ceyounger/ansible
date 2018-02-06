@@ -1,0 +1,4 @@
+handlers:
+ - include: cockpit.yml
+ - include: nrpe.yml
+ - include: webmin.yml
