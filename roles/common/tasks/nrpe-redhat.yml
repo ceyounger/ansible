@@ -65,4 +65,4 @@
     - firewalld_state == "running"
   tags: nrpe
 
-- include: nrpe-common.yml
+- include_tasks: roles/common/tasks/nrpe-common.yml

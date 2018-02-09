@@ -57,4 +57,4 @@
     - ufw_state == "active"
   tags: nrpe
 
-- include: nrpe-common.yml
+- include_tasks: roles/common/tasks/nrpe-common.yml
