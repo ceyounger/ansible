@@ -1,3 +1,5 @@
+---
+# file: roles/common/handlers/main.yml
 - name: Start Cockpit
   systemd: name=cockpit state=started
 
