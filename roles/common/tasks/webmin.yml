@@ -2,7 +2,7 @@
 # file: roles/webmin/tasks/main.yml
 - name: Add Webmin Repo for CentOS
   yum_repository:
-    name: Webmin
+    name: webmin
     description: Webmin Distribution Neutral
     baseurl: https://download.webmin.com/download/yum
     mirrorlist: https://download.webmin.com/download/yum/mirrorlist
