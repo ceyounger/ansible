@@ -1,0 +1,9 @@
+---
+# file: roles/kubeadm/tasks/Redhat.yml
+- name: Install Repo on CentOS
+  yum_repository:
+    name: Kubernetes
+    baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-{{ ansible_architecture }}
+    gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    gpgcheck: yes
+  when: ansible_distribution == "CentOS"

@@ -1,0 +1,9 @@
+---
+# file: roles/kubeadm/tasks/common.yml
+- name: Install Kubernetes Softare
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state=present
+  with_items:
+    - kubelet
+    - kubeadm
+    - kubectl

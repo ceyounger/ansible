@@ -1,0 +1,22 @@
+---
+# file: roles/kubeadm/tasks/Debian.yml
+- name: Install Prereq Software on Ubuntu
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install GPG Key on Ubuntu
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+  
+- name: Install Repo on Ubuntu  
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-{{ ansible_distribution_release }} main
+    state: present
+    filename: 'kubernetes'
+  when: ansible_distribution == "Ubuntu"

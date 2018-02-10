@@ -1,38 +1,11 @@
 ---
-
-- name: Install Prereq Software on Ubuntu
-  apt: name={{ item }} state=present update_cache=yes
-  with_items:
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - software-properties-common
-  when: ansible_distribution == "Ubuntu"
-
-- name: Install GPG Key on Ubuntu
-  apt_key:
-    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-    state: present
+# file: roles/kubeadm/tasks/main.yml
+- include_vars: "{{ ansible_os_family }}.yml"
   
-- name: Install Repo on Ubuntu  
-  apt_repository:
-    repo: deb http://apt.kubernetes.io/ kubernetes-{{ ansible_distribution_release }} main
-    state: present
-    filename: 'kubernetes'
-  when: ansible_distribution == "Ubuntu"
+- include_tasks: roles/kubeadm/tasks/Debian.yml
+  when: ansible_os_family == "Debian"
+  
+- include_tasks: roles/kubeadm/tasks/RedHat.yml
+  when: ansible_os_family == "RedHat"
 
-- name: Install Repo on CentOS
-  yum_repository:
-    name: Kubernetes
-    baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-{{ ansible_architecture }}
-    gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-    gpgcheck: yes
-  when: ansible_distribution == "CentOS"
-
-- name: Install Kubernetes Softare
-  action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=present
-  with_items:
-    - kubelet
-    - kubeadm
-    - kubectl
+- include_tasks: roles/kubeadm/tasks/common.yml
