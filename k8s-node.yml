@@ -1,0 +1,7 @@
+---
+
+- hosts: k8s-node
+  #gather_facts: no
+  become: yes
+  roles:
+    - { role: k8s-cluster/node, tags: k8s-node }

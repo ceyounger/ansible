@@ -1,5 +1,5 @@
 ---
-# file: site/yml
+# file: site.yml
 - import_playbook: common.yml
 - import_playbook: docker.yml
 - import_playbook: centos-kernel4.yml

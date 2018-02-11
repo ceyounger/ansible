@@ -1,0 +1,8 @@
+---
+
+- hosts: k8s-master
+  #gather_facts: no
+  become: yes
+  roles:
+    - { role: k8s-cni, tags: k8s-cni }
+    - { role: k8s-addon, tags: k8s-addon }
