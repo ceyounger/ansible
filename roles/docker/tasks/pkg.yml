@@ -53,6 +53,7 @@
   yum:
     name: docker-ce-{{ docker_version }}.ce-1.el7.centos
     state: present
+    allow_downgrade: yes
 
 - name: Install docker engine (Debian/Ubuntu)
   when: ansible_os_family == "Debian"
