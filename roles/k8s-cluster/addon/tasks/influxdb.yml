@@ -11,7 +11,7 @@
   ignore_errors: true
 
 - name: Create InFluxDB Deployment
-  when: check_influx|failed
+  when: check_influxdb|failed
   shell: kubectl create --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/influxdb.yml
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
