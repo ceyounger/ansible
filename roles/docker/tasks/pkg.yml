@@ -11,6 +11,8 @@
     - docker-engine
     - docker-ce
     - docker-ee
+    - docker-ce-selinux
+    - docker-ee-selinux
 
 - name: Ensure APT is setup for HTTPS repos (Debian/Ubuntu)
   when: ansible_distribution == "Ubuntu"
