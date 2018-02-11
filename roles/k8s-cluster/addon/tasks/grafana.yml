@@ -12,6 +12,6 @@
 
 - name: Create Grafana Deployment
   when: check_grafana|failed
-  shell: kubectl create --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/grafana.yml
+  shell: kubectl apply --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/grafana.yml
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true

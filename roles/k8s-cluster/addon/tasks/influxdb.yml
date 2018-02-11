@@ -12,7 +12,7 @@
 
 - name: Create InFluxDB Deployment
   when: check_influxdb|failed
-  shell: kubectl create --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/influxdb.yml
+  shell: kubectl apply --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/influxdb.yml
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
 
@@ -25,7 +25,7 @@
 
 - name: Create Heapster role
   when: check_role_heap|failed
-  shell: kubectl create --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/heapster-rbac.yml
+  shell: kubectl apply --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/heapster-rbac.yml
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
   register: create_role_heap
