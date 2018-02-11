@@ -51,12 +51,12 @@
 - name: Install docker engine (RHEL/CentOS)
   when: ansible_os_family == "RedHat"
   yum:
-    name: {{ item }}
+    name: "{{ item }}"
     state: present
     allow_downgrade: yes
   with_items:
-    - "docker-ce-{{ docker_version }}.ce-1.el7.centos"
-    - "docker-ce-selinux-{{ docker_version }}.ce-1.el7.centos"
+    - docker-ce-{{ docker_version }}.ce-1.el7.centos
+    - docker-ce-selinux-{{ docker_version }}.ce-1.el7.centos
 
 - name: Install docker engine (Debian/Ubuntu)
   when: ansible_os_family == "Debian"
