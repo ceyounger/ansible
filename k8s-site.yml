@@ -5,7 +5,22 @@
   become: yes
   roles:
     - { role: docker, tags: docker }
-  
-- import_playbook: k8s-master.yml
-- import_playbook: k8s-node.yml
-- import_playbook: k8s-master2.yml
+
+- hosts: k8s-master
+  #gather_facts: no
+  become: yes
+  roles:
+    - { role: k8s-cluster/master, tags: k8s-master }
+
+- hosts: k8s-node
+  #gather_facts: no
+  become: yes
+  roles:
+    - { role: k8s-cluster/node, tags: k8s-node }
+
+- hosts: k8s-master
+  #gather_facts: no
+  become: yes
+  roles:
+    - { role: k8s-cni, tags: k8s-cni }
+    - { role: k8s-addon, tags: k8s-addon }
