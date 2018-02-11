@@ -10,13 +10,13 @@
   #gather_facts: no
   become: yes
   roles:
-    - { role: k8s-cluster/master, tags: master }
+    - { role: k8s-cluster/master, tags: k8s-master }
   
 - hosts: k8s-node
   #gather_facts: no
   become: yes
   roles:
-    - { role: k8s-cluster/node, tags: node }
+    - { role: k8s-cluster/node, tags: k8s-node }
   
 - hosts: k8s-master
   #gather_facts: no
