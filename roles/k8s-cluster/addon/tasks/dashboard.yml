@@ -13,7 +13,7 @@
   template: src=dashboard.key.j2  dest={{ kube_addon_dir }}/certs/dashboard.key
 
 - name: Check if there are any dashboard certs and register result
-  command: kubectl --kubeconfig={{ kubeadmin_config }} get secrets -n kube-system | grep kubernetes-dashboard-certs | cut -d ' ' -f 1
+  command: "kubectl --kubeconfig={{ kubeadmin_config }} get secrets -n kube-system | grep kubernetes-dashboard-certs | cut -d ' ' -f 1"
   ignore_errors: true
   register: check_dash_cert
 
