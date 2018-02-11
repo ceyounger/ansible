@@ -21,7 +21,7 @@
     - software-properties-common
 
 - name: Install required packages for (RHEL/CentOS)
-  when: ansible_os_family == "Redhat"
+  when: ansible_os_family == "RedHat"
   yum: name={{ item }} state=present
   with_items:
     - yum-utils
@@ -40,16 +40,16 @@
     state: present
     filename: 'docker'
 
-- name: Add Docker Repo (RHEL/CentOS)
-  when: ansible_os_family == "Redhat"
+- name: Add Docker Repo (RHEL/Centos)
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
+  when: ansible_os_family == "RedHat"
 
 - name: Install docker engine (RHEL/CentOS)
   when: ansible_os_family == "RedHat"
   yum:
-    name: "docker-ce-{{ docker_version }}.el7.centos"
+    name: "docker-ce"
     state: present
 
 - name: Install docker engine (Debian/Ubuntu)
