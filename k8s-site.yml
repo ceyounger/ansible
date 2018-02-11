@@ -19,8 +19,8 @@
   roles:
     - { role: k8s-cluster/node, tags: node }
 
-#- hosts: k8s-master
+- hosts: k8s-master
   #gather_facts: no
-#  become: yes
-#  roles:
-#   - { role: k8s-cluster/addon, tags: addon }
+  become: yes
+  roles:
+   - { role: k8s-cluster/addon, tags: addon }
