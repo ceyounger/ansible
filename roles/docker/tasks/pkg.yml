@@ -51,12 +51,19 @@
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
   
-- name: Install docker engine (RHEL/CentOS)
+#- name: Install docker engine (RHEL/CentOS)
+#  when: ansible_os_family == "RedHat"
+#  yum:
+#    name: docker-ce-{{ docker_version }}.ce-1.el7.centos
+#    state: present
+#    allow_downgrade: yes
+
+- name: Install Docker (RHEL/CentOS)
   when: ansible_os_family == "RedHat"
-  yum:
-    name: docker-ce-{{ docker_version }}.ce-1.el7.centos
-    state: present
-    allow_downgrade: yes
+  command: yum install --setopt=obsoletes=0 {{ item }} state=present
+  with_items:
+    - docker-ce-{{ docker_version }}.ce-1.el7.centos
+    - docker-ce-selinux-{{ docker_version }}.ce-1.el7.centos
   
 - name: Install docker engine (Debian/Ubuntu)
   when: ansible_os_family == "Debian"
