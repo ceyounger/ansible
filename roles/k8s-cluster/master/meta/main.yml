@@ -1,4 +1,4 @@
 ---
 dependencies:
-  - { role: k8s-common/os-checker }
-  - { role: k8s-common/pre-install, pkgs: [ "kubectl", "kubelet", "kubernetes-cni", "kubeadm" ] }
+  - { role: k8s-cluster/common/os-checker }
+  - { role: k8s-cluster/common/pre-install, pkgs: [ "kubectl", "kubelet", "kubernetes-cni", "kubeadm" ] }

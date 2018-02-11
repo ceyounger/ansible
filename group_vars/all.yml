@@ -1,5 +1,5 @@
 ---
-# file: group_vars/kube-all.yml
+# file: group_vars/all.yml
 kube_version: v1.9.1
 token: b0f7b8.8d1767876297d85c
   

@@ -14,9 +14,7 @@
   template: src="{{ cni.template.ds }}.j2" dest={{ network_dir }}/{{ cni.template.ds }}
 
 - name: "Check {{ cni.name }} cluster role already exists"
-  shell: |
-    kubectl --kubeconfig={{ kubeadmin_config }} \
-            get clusterrole | grep {{ cni.name }}
+  shell: kubectl --kubeconfig={{ kubeadmin_config }} get clusterrole | grep {{ cni.name }}
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
   register: check_role
@@ -24,17 +22,13 @@
 
 - name: "Create {{ cni.name }} cluster role"
   when: check_role|failed
-  shell: |
-    kubectl create --kubeconfig={{ kubeadmin_config }} \
-                   -f {{ network_dir }}/{{ cni.template.rbac }}
+  shell: kubectl create --kubeconfig={{ kubeadmin_config }} -f {{ network_dir }}/{{ cni.template.rbac }}
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
   register: create_role
 
 - name: "Check {{ cni.name }} daemonset is working"
-  shell: |
-    kubectl --kubeconfig={{ kubeadmin_config }} \
-            get ds --all-namespaces | grep {{ cni.name }}
+  shell: kubectl --kubeconfig={{ kubeadmin_config }} get ds --all-namespaces | grep {{ cni.name }}
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
   register: check_net
@@ -42,8 +36,6 @@
 
 - name: "Create {{ cni.name }} network daemonset"
   when: check_net|failed
-  shell: |
-    kubectl create --kubeconfig={{ kubeadmin_config }} \
-                   -f {{ network_dir }}/{{ cni.template.ds }}
+  shell: kubectl create --kubeconfig={{ kubeadmin_config }} -f {{ network_dir }}/{{ cni.template.ds }}
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
