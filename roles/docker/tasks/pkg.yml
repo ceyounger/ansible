@@ -60,7 +60,7 @@
 
 - name: Install Docker (RHEL/CentOS)
   when: ansible_os_family == "RedHat"
-  command: yum install --setopt=obsoletes=0 {{ item }} state=present
+  command: yum -y install --setopt=obsoletes=0 {{ item }} state=present
   with_items:
     - docker-ce-{{ docker_version }}.ce-1.el7.centos
     - docker-ce-selinux-{{ docker_version }}.ce-1.el7.centos
