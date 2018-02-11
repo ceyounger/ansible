@@ -13,6 +13,7 @@
     - docker-ee
     - docker-ce-selinux
     - docker-ee-selinux
+    - container-selinux
 
 - name: Ensure APT is setup for HTTPS repos (Debian/Ubuntu)
   when: ansible_distribution == "Ubuntu"
@@ -31,7 +32,6 @@
     - yum-utils
     - device-mapper-persistent-data
     - lvm2
-    - container-selinux
 
 - name: Add Docker APT GPG key
   when: ansible_os_family == "Debian"
