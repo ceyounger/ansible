@@ -7,19 +7,19 @@
     - { role: docker, tags: docker }
   
 - hosts: k8s-master
-  gather_facts: no
+  #gather_facts: no
   become: yes
   roles:
     - { role: k8s-cluster/master, tags: master }
   
 - hosts: k8s-node
-  gather_facts: no
+  #gather_facts: no
   become: yes
   roles:
     - { role: k8s-cluster/node, tags: node }
   
 - hosts: k8s-master
-  gather_facts: no
+  #gather_facts: no
   become: yes
   roles:
     - { role: k8s-cni, tags: cni }
