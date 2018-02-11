@@ -1,5 +1,5 @@
 ---
-# file: group_vars/kube-cluster.yml  
+# file: group_vars/k8s-cluster.yml  
 systemd_dir: /lib/systemd/system
 system_env_dir: /etc/sysconfig
 network_dir: /etc/kubernetes/network
