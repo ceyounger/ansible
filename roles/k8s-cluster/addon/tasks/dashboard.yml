@@ -1,18 +1,29 @@
 ---
 
-- name: Copy Kubernetes-Dashboard yml file
+- name: Copy Dashboard yml file
   template: src=kube-dash-rbac.yml.j2  dest={{ kube_addon_dir }}/k8s-dashboard.yml
   
-- name: Copy Kubernetes-Dashboard Admin yml file
+- name: Copy Dashboard Admin yml file
   template: src=kube-dash-rbac.yml.j2  dest={{ kube_addon_dir }}/k8s-dashboard-admin.yml
 
-- name: Copy Kubernetes-Dashboard crt file
+- name: Copy Dashboard crt file
   template: src=dashboard.crt.j2  dest={{ kube_addon_dir }}/certs/dashboard.crt
 
-- name: Copy Kubernetes-Dashboard key file
+- name: Copy Dashboard key file
   template: src=dashboard.key.j2  dest={{ kube_addon_dir }}/certs/dashboard.key
 
+- name: Check if there are any dashboard certs and register result
+  command: kubectl --kubeconfig={{ kubeadmin_config }} get secrets -n kube-system | grep kubernetes-dashboard-certs | cut -d ' ' -f 1
+  ignore_errors: true
+  register: check_dash_cert
+
+#- name: Clear any Dashbboard certs
+#  when: check_dash_cert|failed
+#  command: kubectl --kubeconfig={{ kubeadmin_config }} delete secret kubernetes-dashboard-certs -n kube-system
+#  ignore_errors: true
+
 - name: Copy Kubernetes-Dashboard certs to kube_system
+  when: check_dash_cert|failed
   command: kubectl --kubeconfig={{ kubeadmin_config }} create secret generic kubernetes-dashboard-certs --from-file={{ kube_addon_dir }}/certs -n kube-system
 
 - name: Check Kubernetes-Dashboard role already exists
