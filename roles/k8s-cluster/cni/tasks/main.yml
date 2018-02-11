@@ -1,17 +1,13 @@
 ---
 
-- name: "Set fact {{ network }} cni variable"
-  set_fact:
-    cni: "{{ vars[network] }}"
-
-- name: "Check {{ cni.name }} cluster role already exists"
-  shell: kubectl --kubeconfig={{ kubeadmin_config }} get clusterrole | grep {{ cni.name }}
+- name: "Check {{ network }} cluster role already exists"
+  shell: kubectl --kubeconfig={{ kubeadmin_config }} get clusterrole | grep {{ network }}
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
   register: check_role
   ignore_errors: true
 
-- name: "Create {{ cni.name }} cluster role"
+- name: "Create {{ network }} cluster role"
   when: 
     - check_role|failed
     - network == "flannel"
@@ -20,7 +16,7 @@
   run_once: true
   register: create_role
 
-- name: "Create {{ cni.name }} cluster role"
+- name: "Create {{ network }} cluster role"
   when: 
     - check_role|failed
     - network == "weave"
@@ -29,7 +25,7 @@
   run_once: true
   register: create_role
 
-- name: "Create {{ cni.name }} cluster role"
+- name: "Create {{ network }} cluster role"
   when: 
     - check_role|failed
     - network == "calico"
@@ -38,7 +34,7 @@
   run_once: true
   register: create_role
 
-- name: "Create {{ cni.name }} cluster role"
+- name: "Create {{ network }} cluster role"
   when: 
     - check_role|failed
     - network == "kube_router"
@@ -47,7 +43,7 @@
   run_once: true
   register: create_role
 
-- name: "Create {{ cni.name }} cluster role"
+- name: "Create {{ network }} cluster role"
   when: 
     - check_role|failed
     - network == "romana"
