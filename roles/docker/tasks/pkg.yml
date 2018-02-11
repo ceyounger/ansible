@@ -9,6 +9,8 @@
     - docker-common
     - docker-selinux
     - docker-engine
+    - docker-ce
+    - docker-ee
 
 - name: Ensure APT is setup for HTTPS repos (Debian/Ubuntu)
   when: ansible_distribution == "Ubuntu"
@@ -41,15 +43,15 @@
     filename: 'docker'
 
 - name: Add Docker Repo (RHEL/Centos)
+  when: ansible_os_family == "RedHat"
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
-  when: ansible_os_family == "RedHat"
-
+  
 - name: Install docker engine (RHEL/CentOS)
   when: ansible_os_family == "RedHat"
   yum:
-    name: "docker-ce"
+    name: docker-ce-{{ docker_version }}.ce-1.el7.centos
     state: present
 
 - name: Install docker engine (Debian/Ubuntu)
@@ -68,6 +70,6 @@
 - name: Install Docker-Compose
   ignore_errors: yes
   get_url:
-    url: https://github.com/docker/compose/releases/download/{{ docker-compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}
     dest: /usr/local/bin/docker-compose
     mode: 0777
