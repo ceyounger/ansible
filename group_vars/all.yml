@@ -12,7 +12,7 @@ dns_name: cluster.local
 dns_ip: "{{ service_subnet }}.10"
   
 # Network implementation('flannel', 'calico')
-network: weave
+network: flannel
 pod_network_cidr: 10.244.0.0/16
 cni_opts: "" # flannel: --iface=eth1, calico: interface=eth1
   
