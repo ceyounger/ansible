@@ -16,24 +16,29 @@
   command: kubectl --kubeconfig={{ kubeadmin_config }} delete secret kubernetes-dashboard-certs -n kube-system
   ignore_errors: true
 
-- name: Copy Kubernetes-Dashboard certs to kube_system
+- name: Copy Dashboard certs to kube_system
   command: kubectl --kubeconfig={{ kubeadmin_config }} create secret generic kubernetes-dashboard-certs --from-file={{ kube_addon_dir }}/certs -n kube-system
 
-- name: Check Kubernetes-Dashboard role already exists
+- name: Check Dashboard role already exists
   command: kubectl --kubeconfig={{ kubeadmin_config }} get clusterrolebinding \| grep kubernetes-dashboard
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
   register: check_role_dash
   ignore_errors: true
   
-- name: Apply Kubernetes-Dashboard Deployment
+- name: Create Dashboard Deployment
   when: check_role_dash|failed
+  command: kubectl create --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/k8s-dashboard.yml
+  delegate_to: "{{ groups['master'][0] }}"
+  run_once: true
+
+- name: Apply Dashboard Deployment
+  when: check_role_dash|success
   command: kubectl apply --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/k8s-dashboard.yml
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
 
 - name: Apply Kubernetes-Dashboard Admin Deployment
-  when: check_role_dash|failed
   command: kubectl apply --kubeconfig={{ kubeadmin_config }} -f {{ kube_addon_dir }}/k8s-dashboard-admin.yml
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
