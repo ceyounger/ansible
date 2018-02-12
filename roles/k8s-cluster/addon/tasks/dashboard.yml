@@ -13,7 +13,7 @@
   template: src=dashboard.key.j2  dest={{ kube_addon_dir }}/certs/dashboard.key
 
 - name: Check if there are any dashboard certs and register result
-  command: "kubectl --kubeconfig={{ kubeadmin_config }} get secrets -n kube-system | grep kubernetes-dashboard-certs | cut -d ' ' -f 1"
+  command: "kubectl --kubeconfig={{ kubeadmin_config }} get secrets -n kube-system \| grep kubernetes-dashboard-certs \| cut -d ' ' -f 1"
   ignore_errors: true
   register: check_dash_cert
 
@@ -27,7 +27,7 @@
   command: kubectl --kubeconfig={{ kubeadmin_config }} create secret generic kubernetes-dashboard-certs --from-file={{ kube_addon_dir }}/certs -n kube-system
 
 - name: Check Kubernetes-Dashboard role already exists
-  command: kubectl --kubeconfig={{ kubeadmin_config }} get clusterrolebinding | grep kubernetes-dashboard
+  command: kubectl --kubeconfig={{ kubeadmin_config }} get clusterrolebinding \| grep kubernetes-dashboard
   delegate_to: "{{ groups['master'][0] }}"
   run_once: true
   register: check_role_dash
