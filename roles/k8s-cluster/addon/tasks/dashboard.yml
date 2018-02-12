@@ -13,12 +13,10 @@
   template: src=dashboard.key.j2  dest={{ kube_addon_dir }}/certs/dashboard.key
 
 - name: Clear any Dashbboard certs
-  when: check_dash_cert|failed
   command: kubectl --kubeconfig={{ kubeadmin_config }} delete secret kubernetes-dashboard-certs -n kube-system
   ignore_errors: true
 
 - name: Copy Kubernetes-Dashboard certs to kube_system
-  when: check_dash_cert|failed
   command: kubectl --kubeconfig={{ kubeadmin_config }} create secret generic kubernetes-dashboard-certs --from-file={{ kube_addon_dir }}/certs -n kube-system
 
 - name: Check Kubernetes-Dashboard role already exists
