@@ -12,15 +12,10 @@
 - name: Copy Dashboard key file
   template: src=dashboard.key.j2  dest={{ kube_addon_dir }}/certs/dashboard.key
 
-- name: Check if there are any dashboard certs and register result
-  command: kubectl --kubeconfig={{ kubeadmin_config }} get secrets -n kube-system \| grep kubernetes-dashboard-certs \| cut -d ' ' -f 1
+- name: Clear any Dashbboard certs
+  when: check_dash_cert|failed
+  command: kubectl --kubeconfig={{ kubeadmin_config }} delete secret kubernetes-dashboard-certs -n kube-system
   ignore_errors: true
-  register: check_dash_cert
-
-#- name: Clear any Dashbboard certs
-#  when: check_dash_cert|failed
-#  command: kubectl --kubeconfig={{ kubeadmin_config }} delete secret kubernetes-dashboard-certs -n kube-system
-#  ignore_errors: true
 
 - name: Copy Kubernetes-Dashboard certs to kube_system
   when: check_dash_cert|failed
