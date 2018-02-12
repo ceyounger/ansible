@@ -35,11 +35,6 @@
   when: ansible_distribution == "Ubuntu"
   tags: nrpe
 
-- name: Copy check_yum to Nagios Plugin directory for Ubuntu
-  copy: src=roles/common/files/check_yum dest=/usr/lib/nagios/plugins/ owner=nagios group=nagios mode=0755
-  when: ansible_distribution == "Ubuntu"
-  tags: nrpe
-
 - name: Check state of UFW and register
   command: "ufw status | grep Status: | sed 's/Status: //g'"
   register: ufw_state
