@@ -30,3 +30,14 @@
     state: restarted
     enabled: yes
   register: started_docker
+
+- name: Add users to docker group
+  user:
+    name: {{ item }}
+    groups: docker
+    append: yes
+    ignore_errors: true
+  with_items:
+    - ceyounger
+    - nagios
+    - nrpe
