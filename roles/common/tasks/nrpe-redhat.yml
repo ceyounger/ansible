@@ -46,6 +46,11 @@
   when: ansible_distribution == "CentOS"
   tags: nrpe
 
+- name: Copy check_mem to Nagios Plugin directory for all CentOS
+  copy: src=roles/common/files/check_mem dest=/usr/lib64/nagios/plugins/ owner=nagios group=nagios mode=0755
+  when: ansible_distribution == "CentOS"
+  tags: nrpe
+
 - name: Copy firewalld service entry for CentOS
   copy: src=roles/common/files/nrpe.xml dest=/etc/firewalld/services/ owner=root group=root mode=0644
   when: ansible_distribution == "CentOS"
