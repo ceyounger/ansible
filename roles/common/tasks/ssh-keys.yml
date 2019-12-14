@@ -4,10 +4,5 @@
   authorized_key:
     user: root
     state: present
-    key: '{{ item }}'
-  with_file:
-    - roles/common/files/cy-dsktp01.pub
-    - roles/common/files/cy-mbp-13-3.pub
-    - roles/common/files/taius-main.pub
-    - roles/common/files/util01.pub
+    key: https://github.com/ceyounger.keys
   tags: ssh-keys
